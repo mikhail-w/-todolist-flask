@@ -1,12 +1,14 @@
 from flask import Flask, jsonify, abort, request, make_response
 from flaskext.mysql import MySQL
 from flask_cors import CORS
+from flask import Flask, jsonify, abort, request, make_response, send_file
 
 from dotenv import load_dotenv
 
 load_dotenv()
 
-app = Flask(__name__)
+# app = Flask(__name__)
+app = Flask(__name__, static_url_path="", static_folder=".")
 CORS(app)
 
 # Configuring MySQL database
@@ -126,10 +128,14 @@ def remove_task(task):
 
 
 # Set up Flask routes for API
+# @app.route("/")
+# def home():
+#     """Home route that returns a welcome message."""
+#     return "Welcome to to-do API Service"
 @app.route("/")
 def home():
-    """Home route that returns a welcome message."""
-    return "Welcome to to-do API Service"
+    """Home route that serves the frontend."""
+    return send_file("index.html")
 
 
 @app.route("/todos", methods=["GET"])
